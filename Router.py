@@ -9,11 +9,13 @@
 """
 
 import Consts
+import Test
 import Util
 import Transport
 import Channel
 import Pattern
 import Grid
+import Mixer
 
 
 
@@ -25,7 +27,8 @@ class Router:
             Transport.Context(self),
             Channel.Context(self),
             Pattern.Context(self),
-            Grid.Context(self)
+            Grid.Context(self),
+            Mixer.Context(self)
         ]
 
         # init jog params
@@ -40,10 +43,15 @@ class Router:
     def jog(self, jog: int, shift: bool, press: bool, step: int):
         processed = False
 
+        if self.isBtnPressed(Consts.BTN_PROJECT):  # just for tests!!!
+            Test.testJog(step)
+            return True
+
         # print("JOG mode=",self.jogMode,", press=",press,", step=",step)
         for context in self.contexts:
             if context.enabled():
                 if context.jog(jog, self.jogMode, press, step):
+                    return True
                     processed = True
                     break
 
@@ -70,6 +78,11 @@ class Router:
                     self.setBtnPressed(b, False)
 
             processed = True
+
+        elif btn == Consts.BTN_PROJECT:  # experimental, need bo be removed
+            Test.test()
+            processed = True
+
         # BTN jog
         elif btn == Consts.BTN_JOG and press and self.jogMode == None:  # Add pattern, mixer, channel...
             self.dawPattern.add()

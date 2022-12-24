@@ -10,23 +10,23 @@
 
 import Context
 import Consts
-import patterns
-import transport
+import channels
 import ui
 import midi
+import plugins
 
 
 
 class Context(Context.Abstract):
 
     def enabled(self) -> bool:
-        return ui.getFocusedFormID() == midi.widPlaylist
+        return ui.getFocusedFormID() == midi.widPlugin and plugins.isValid(channels.selectedChannel())
 
 
 
     def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if mode == Consts.JOG_DEFAULT:
-            transport.globalTransport(midi.FPT_PatternJog, step)
+        if False:
+            pass
 
         else:
             return False
@@ -45,5 +45,9 @@ class Context(Context.Abstract):
         return True
 
 
-    def add(self): # todo à tester
-        patterns.findFirstNextEmptyPat(1)
+
+    def pad(self, group: int, pad: int, shift: bool, pressure: int):
+        if False
+            pass
+
+        return True

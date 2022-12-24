@@ -11,13 +11,15 @@
 import Context
 import Consts
 import channels
+import ui
+import midi
 
 
 
 class Context(Context.Abstract):
 
     def enabled(self) -> bool:
-        return True
+        return ui.getFocusedFormID() == midi.widChannelRack and self.router.isBtnPressed(Consts.BTN_STEP)
 
 
 

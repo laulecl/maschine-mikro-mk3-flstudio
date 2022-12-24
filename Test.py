@@ -16,16 +16,41 @@ import mixer
 import channels
 import midi
 import plugins
+import playlist
 
 import Consts
 
 
 
-def test(self):
-    # plugins.nextPreset(0)
-    # ui.hideWindow(midi.widPianoRoll)
-    channels.midiNoteOn(0, 40, 127)
-    # print('coucou ' + format(device.getPortNumber()))
+def test():
+    #pindex = 1
+    #pvalue = 1
+
+    #print(plugins.getParamName(pindex, channels.selectedChannel()))
+    #plugins.setParamValue(pvalue, pindex, channels.selectedChannel())
+    printPlugin()
+
+
+def testJog(step: int):
+    plugins.nextPreset(channels.selectedChannel())
+
+
+
+
+
+def printPlugin():
+    index = channels.selectedChannel()
+    if not plugins.isValid(index):
+        return None
+
+    print( "Nom du plugin:",plugins.getPluginName(index) )
+    print("Index du plugin:", index)
+    print("Nombre de paramètres:", plugins.getParamCount(index))
+    for p in range(plugins.getParamCount(index)):
+        pname = plugins.getParamName(p, index)
+        pvalue = plugins.getParamValue(p, index)
+        if pname != "" and pname != "#"+str(p).ljust(3,'0'):
+            print(str(p).ljust(5, ' '), pname.ljust(50, ' '), pvalue)
 
 
 
