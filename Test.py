@@ -20,6 +20,7 @@ import plugins
 import Consts
 
 
+
 def test(self):
     # plugins.nextPreset(0)
     # ui.hideWindow(midi.widPianoRoll)
@@ -27,34 +28,38 @@ def test(self):
     # print('coucou ' + format(device.getPortNumber()))
 
 
-def printEvent(event, evtype):
-    print('----------- NOUVEAU ' + evtype + ' ----------------')
-    print("status = " + str(event.status))
-    print("data1 = " + str(event.data1))
-    print("data2 = " + str(event.data2))
-    print("port = " + str(event.port))
-    print("note = " + str(event.note))
-    print("velocity = " + str(event.velocity))
-    print("pressure = " + str(event.pressure))
-    print("progNum = " + str(event.progNum))
-    print("controlNum = " + str(event.controlNum))
-    print("controlVal = " + str(event.controlVal))
-    print("pitchBend = " + str(event.pitchBend))
-    print("sysex = " + str(event.sysex))
-    print("isIncrement = " + str(event.isIncrement))
-    print("res = " + str(event.res))
-    print("inEv = " + str(event.inEv))
-    print("outEv = " + str(event.outEv))
-    print("midiId = " + str(event.midiId))
-    print("midiChan = " + str(event.midiChan))
-    print("midiChanEx = " + str(event.midiChanEx))
-    # print("pmeflags = " + str(event.pmeflags))
-    print("------- FIN --------")
+
+def printEvent(event, evtype=""):
+    nameLength = 15
+    valLength = 15
+
+    # res HIDDEN
+
+    print('\u250C' + '\u2500MIDI\u2500EVENT\u2500\u2500\u2500\u2500' + str(evtype).ljust(22, '\u2500') + str('').rjust(20, '\u2500') + '\u2510')
+
+    print(_eventAttr("status", str(event.status)) + _eventAttr("midiId", str(event.midiId)) + "\u2502")
+    print(_eventAttr("data1", str(event.data1)) + _eventAttr("controlNum", str(event.controlNum)) + "\u2502")
+    print(_eventAttr("data2", str(event.data2)) + _eventAttr("controlVal", str(event.controlVal)) + "\u2502")
+    print(_eventAttr("port", str(event.port)) + _eventAttr("isIncrement", str(event.isIncrement)) + "\u2502")
+    print(_eventAttr("note", str(event.note)) + _eventAttr("progNum", str(event.progNum)) + "\u2502")
+    print(_eventAttr("velocity", str(event.velocity)) + _eventAttr("pressure", str(event.pressure)) + "\u2502")
+    print(_eventAttr("pitchBend", str(event.pitchBend)) + _eventAttr("sysex", str(event.sysex)) + "\u2502")
+    print(_eventAttr("inEv", str(event.inEv)) + _eventAttr("midiChanEx", str(event.midiChanEx)) + "\u2502")
+    print(_eventAttr("outEv", str(event.outEv)) + _eventAttr("midiChan", str(event.midiChan)) + "\u2502")
+
+    print("\u2514" + str("").rjust(57, "\u2500") + "\u2518")
     print(" ")
+
+
+
+def _eventAttr(name: str, value: str):
+    return "\u2502 " + name.ljust(11, ' ') + " = " + value.rjust(12, ' ') + ' '
+
 
 
 def btnName(btn: int):
     return Consts.DEFAULTS[btn]["name"]
+
 
 
 """

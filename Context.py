@@ -8,7 +8,6 @@
 ]]
 """
 
-
 class Abstract:
 
     def __init__(self, router):

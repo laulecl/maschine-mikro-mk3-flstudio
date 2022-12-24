@@ -12,7 +12,8 @@ import Consts
 import Util
 import Transport
 import Channel
-from DawPattern import DawPattern
+import Pattern
+import Grid
 
 
 
@@ -20,12 +21,12 @@ class Router:
 
     def __init__(self, maschineMikroMK3):
         self.mmmk3 = maschineMikroMK3
-        self.contexts = {
-            Consts.CONTEXT_TRANSPORT: Transport.Context(self),
-            Consts.CONTEXT_CHANNEL: Channel.Context(self)
-        }
-
-        self.dawPattern = DawPattern()
+        self.contexts = [
+            Transport.Context(self),
+            Channel.Context(self),
+            Pattern.Context(self),
+            Grid.Context(self)
+        ]
 
         # init jog params
         self.jogModeButtons = [Consts.BTN_VOLUME, Consts.BTN_SWING, Consts.BTN_TEMPO, Consts.BTN_PLUGIN, Consts.BTN_SAMPLING]
@@ -37,29 +38,25 @@ class Router:
 
 
     def jog(self, jog: int, shift: bool, press: bool, step: int):
+        processed = False
+
         # print("JOG mode=",self.jogMode,", press=",press,", step=",step)
-        for c in self.contexts:
-            if self.contexts[c].enabled():
-                if self.contexts[c].jog(jog, self.jogMode, press, step):
+        for context in self.contexts:
+            if context.enabled():
+                if context.jog(jog, self.jogMode, press, step):
+                    processed = True
                     break
+
+        if not processed:
+            print('JOG jog=', jog, ", shift=", shift, ", press=", press, ", step=", step, ", jogMode=", self.jogMode)
 
 
 
     def button(self, btn: int, shift: bool, press: bool):
-        # BTN PROJECT
-        if btn == Consts.BTN_PROJECT and press:
-            return None
-
-        # BTN FAVORITE
-        elif btn == Consts.BTN_FAVORITE:
-            return None
-
-        # BTN BROWSER
-        elif btn == Consts.BTN_BROWSER:
-            self.dawTransport.browser()
+        processed = False
 
         # BTNs for jog usage
-        elif Util.inArray(self.jogModeButtons, btn):  # control jog buttons
+        if Util.inArray(self.jogModeButtons, btn):  # control jog buttons
             if press:
                 self.jogMode = btn
             else:
@@ -72,65 +69,50 @@ class Router:
                 if b != btn:
                     self.setBtnPressed(b, False)
 
+            processed = True
         # BTN jog
         elif btn == Consts.BTN_JOG and press and self.jogMode == None:  # Add pattern, mixer, channel...
             self.dawPattern.add()
-
-        # BTN TAP / METRO
-        elif btn == Consts.BTN_TAP and press:
-            # todo attention à l'éclairage du bouton
-            if not shift:
-                self.dawTransport.tapTempo()
-            else:
-                self.dawTransport.metronome()
-
-        # BTN PLAY
-        elif btn == Consts.BTN_PLAY and press:
-            if shift:
-                self.dawTransport.playMode()
-            self.dawTransport.play()
-
-        # BTN REC
-        elif btn == Consts.BTN_REC:
-            self.dawTransport.record()
-
-        # BTN STOP
-        elif btn == Consts.BTN_STOP and press:
-            self.dawTransport.stop()
+            processed = True
 
         # Other BTNs => LOG
         else:
-            for c in self.contexts:
-                if self.contexts[c].enabled():
-                    if self.contexts[c].button(btn, shift, press):
+            for context in self.contexts:
+                if context.enabled():
+                    if context.button(btn, shift, press):
+                        processed = True
                         break
+
+        if not processed:
+            print('BUTTON btn=', btn, ", shift=", shift, ", press=", press)
 
 
 
     def pad(self, group: int, pad: int, shift: bool, pressure: int):
-        if False:
-            return None
+        processed = False
 
-        # Other cases => LOG
-        else:
-            # print('PAD group=' + str(group) + ", pad=" + str(pad) + ", shift=" + str(shift) + ", pressure=" + str(pressure))
-            for c in self.contexts:
-                if self.contexts[c].enabled():
-                    if self.contexts[c].pad(group, pad, shift, pressure):
-                        break
+        for context in self.contexts:
+            if context.enabled():
+                if context.pad(group, pad, shift, pressure):
+                    processed = True
+                    break
+
+        if not processed:
+            print('PAD BTN group=', group, ", pad=", pad, ", shift=", shift, ", pressure=", pressure)
 
 
 
     def padChangePressure(self, group: int, pad: int, pressure: int):
-        if False:
-            return None
-        # print('PAD CHANGE PRESSURE group=' + str(group) + ", pad=" + str(pad) + ", pressure=" + str(pressure))
-        else:
-            # print('PAD group=' + str(group) + ", pad=" + str(pad) + ", shift=" + str(shift) + ", pressure=" + str(pressure))
-            for c in self.contexts:
-                if self.contexts[c].enabled():
-                    if self.contexts[c].pad(group, pad, shift, pressure):
-                        break
+        processed = False
+
+        for context in self.contexts:
+            if context.enabled():
+                if context.padChangePressure(group, pad, pressure):
+                    processed = True
+                    break
+
+        # if not processed:
+        #    print('PAD PRESSURE group=', group, ", pad=", pad, ", pressure=", pressure)
 
 
 
