@@ -23,12 +23,6 @@ class Context(Abstract.Context):
 
 
     def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if mode == Consts.JOG_DEFAULT:
-            transport.globalTransport(midi.FPT_Jog, step)
-
-        if mode == Consts.JOG_SHIFT:
-            transport.globalTransport(midi.FPT_Jog2, step)
-
         if mode == Consts.JOG_POSITION:
             self.trackPos(step, press)
 
@@ -43,13 +37,7 @@ class Context(Abstract.Context):
 
 
     def button(self, btn: int, shift: bool, press: bool) -> bool:
-        if btn == Consts.BTN_PROJECT:
-            pass # used for test for the moment
-
-        elif btn == Consts.BTN_BROWSER: # change current window
-            transport.globalTransport(midi.FPT_NextWindow, 1)
-
-        elif btn == Consts.BTN_TAP:
+        if btn == Consts.BTN_TAP:
             if not shift:  # TAP Tempo
                 transport.globalTransport(midi.FPT_TapTempo, 1)
             else:  # toggle metronome
@@ -71,11 +59,6 @@ class Context(Abstract.Context):
             return False
 
         return True
-
-
-
-    def browser(self):
-        transport.globalTransport(midi.FPT_F8, 1)
 
 
 

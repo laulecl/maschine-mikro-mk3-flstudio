@@ -12,6 +12,7 @@ import Consts
 import Test
 from Router import Router
 import device
+import time
 
 
 
@@ -30,11 +31,21 @@ class MaschineMikroMK3:
 
     def initButtons(self):
         for btn in Consts.DEFAULTS:
+            self.setBtnPressed(btn, True)
+
+        time.sleep(0.2)
+
+        for btn in Consts.DEFAULTS:
+            self.setBtnPressed(btn, False)
+
+        for btn in Consts.DEFAULTS:
             self.setBtnPressed(btn, Consts.DEFAULTS[btn]["pressed"])
+
 
 
     def onGlobalChange(self):
         pass
+
 
 
     def onControlChange(self, event):

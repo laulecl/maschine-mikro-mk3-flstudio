@@ -8,6 +8,7 @@
 ]]
 """
 
+import Contexts.Interface
 import Contexts.Transport
 import Contexts.Channel
 import Contexts.Pattern
@@ -21,6 +22,7 @@ class Loader:
 
     def __init__(self, router):
         self._contexts = [
+            Contexts.Interface.Context(router),
             Contexts.Transport.Context(router),
 
             Plugins.FlKeys.Plugin(router),

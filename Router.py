@@ -25,9 +25,6 @@ class Router:
         self.jogModeButtons = [Consts.BTN_VOLUME, Consts.BTN_SWING, Consts.BTN_TEMPO, Consts.BTN_PLUGIN, Consts.BTN_SAMPLING]
         self.jogMode = Consts.JOG_DEFAULT
 
-        # contexts
-        self.context = Consts.BTN_SCENE
-
 
 
     def jog(self, jog: int, shift: bool, press: bool, step: int):
@@ -41,7 +38,6 @@ class Router:
         for context in self.loader.contexts():
             if context.enabled():
                 if context.jog(jog, self.jogMode, press, step):
-                    return True
                     processed = True
                     break
 
@@ -73,12 +69,7 @@ class Router:
             Test.test()
             processed = True
 
-        # BTN jog
-        elif btn == Consts.BTN_JOG and press and self.jogMode == None:  # Add pattern, mixer, channel...
-            self.dawPattern.add()
-            processed = True
-
-        # Other BTNs => LOG
+        # Other BTNs
         else:
             for context in self.loader.contexts():
                 if context.enabled():
