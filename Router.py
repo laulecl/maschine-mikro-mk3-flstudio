@@ -11,11 +11,7 @@
 import Consts
 import Test
 import Util
-import Transport
-import Channel
-import Pattern
-import Grid
-import Mixer
+import Loader
 
 
 
@@ -23,13 +19,7 @@ class Router:
 
     def __init__(self, maschineMikroMK3):
         self.mmmk3 = maschineMikroMK3
-        self.contexts = [
-            Transport.Context(self),
-            Channel.Context(self),
-            Pattern.Context(self),
-            Grid.Context(self),
-            Mixer.Context(self)
-        ]
+        self.loader = Loader.Loader(self)
 
         # init jog params
         self.jogModeButtons = [Consts.BTN_VOLUME, Consts.BTN_SWING, Consts.BTN_TEMPO, Consts.BTN_PLUGIN, Consts.BTN_SAMPLING]
@@ -48,7 +38,7 @@ class Router:
             return True
 
         # print("JOG mode=",self.jogMode,", press=",press,", step=",step)
-        for context in self.contexts:
+        for context in self.loader.contexts():
             if context.enabled():
                 if context.jog(jog, self.jogMode, press, step):
                     return True
@@ -90,7 +80,7 @@ class Router:
 
         # Other BTNs => LOG
         else:
-            for context in self.contexts:
+            for context in self.loader.contexts():
                 if context.enabled():
                     if context.button(btn, shift, press):
                         processed = True
@@ -104,7 +94,7 @@ class Router:
     def pad(self, group: int, pad: int, shift: bool, pressure: int):
         processed = False
 
-        for context in self.contexts:
+        for context in self.loader.contexts():
             if context.enabled():
                 if context.pad(group, pad, shift, pressure):
                     processed = True
@@ -118,7 +108,7 @@ class Router:
     def padChangePressure(self, group: int, pad: int, pressure: int):
         processed = False
 
-        for context in self.contexts:
+        for context in self.loader.contexts():
             if context.enabled():
                 if context.padChangePressure(group, pad, pressure):
                     processed = True

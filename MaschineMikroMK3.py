@@ -33,6 +33,9 @@ class MaschineMikroMK3:
             self.setBtnPressed(btn, Consts.DEFAULTS[btn]["pressed"])
 
 
+    def onGlobalChange(self):
+        pass
+
 
     def onControlChange(self, event):
         if event.controlNum == 2:  # Strip bypassed for use with assignments

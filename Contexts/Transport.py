@@ -8,14 +8,14 @@
 ]]
 """
 
-import Context
+import Abstract
 import Consts
 import transport
 import midi
 
 
 
-class Context(Context.Abstract):
+class Context(Abstract.Context):
 
     def enabled(self) -> bool:
         return True

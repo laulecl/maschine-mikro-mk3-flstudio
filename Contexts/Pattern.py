@@ -8,29 +8,25 @@
 ]]
 """
 
-import Context
+import Abstract
 import Consts
 import patterns
 import transport
-import midi
-import mixer
 import ui
+import midi
 
 
 
-class Context(Context.Abstract):
+class Context(Abstract.Context):
 
     def enabled(self) -> bool:
-        return ui.getFocusedFormID() == midi.widMixer
+        return ui.getFocusedFormID() == midi.widPlaylist
 
 
 
     def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if False:
-            pass
-
-        #elif mode == Consts.JOG_VOLUME:
-
+        if mode == Consts.JOG_DEFAULT:
+            transport.globalTransport(midi.FPT_PatternJog, step)
 
         else:
             return False
@@ -40,14 +36,14 @@ class Context(Context.Abstract):
 
 
     def button(self, btn: int, shift: bool, press: bool) -> bool:
-        if btn == Consts.BTN_SOLO:
-            mixer.soloTrack(mixer.trackNumber())
-
-        elif btn == Consts.BTN_MUTE:
-            mixer.muteTrack(mixer.trackNumber())
+        if False:
+            pass
 
         else:
             return False
 
         return True
 
+
+    def add(self): # todo à tester
+        patterns.findFirstNextEmptyPat(1)

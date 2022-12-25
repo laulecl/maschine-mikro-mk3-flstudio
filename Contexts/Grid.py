@@ -8,7 +8,7 @@
 ]]
 """
 
-import Context
+import Abstract
 import Consts
 import channels
 import ui
@@ -16,7 +16,7 @@ import midi
 
 
 
-class Context(Context.Abstract):
+class Context(Abstract.Context):
 
     def enabled(self) -> bool:
         return ui.getFocusedFormID() == midi.widChannelRack and self.router.isBtnPressed(Consts.BTN_STEP)

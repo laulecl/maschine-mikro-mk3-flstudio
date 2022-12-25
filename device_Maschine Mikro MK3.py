@@ -27,8 +27,16 @@ def OnControlChange(event):
     _mmmk3.onControlChange(event)
 
 
+
+def OnUpdateMeters():
+    global _mmmk3
+    _mmmk3.onGlobalChange()
+
+
+
 def OnNoteOn(event):
     event.handled = True
+
 
 
 def OnProgramChange(event):

@@ -8,7 +8,7 @@
 ]]
 """
 
-import Context
+import Abstract
 import Consts
 import channels
 import general
@@ -18,7 +18,7 @@ import ui
 
 
 
-class Context(Context.Abstract):
+class Context(Abstract.Context):
 
     # def __init__(self, router):
     #    AbstractContext.__init__(self, router)
