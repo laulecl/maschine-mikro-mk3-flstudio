@@ -30,13 +30,13 @@ class MaschineMikroMK3:
 
 
     def initButtons(self):
-        for btn in Consts.DEFAULTS:
-            self.setBtnPressed(btn, True)
+        #for btn in Consts.DEFAULTS:
+        #    self.setBtnPressed(btn, True)
 
-        time.sleep(0.2)
+        #time.sleep(0.2)
 
-        for btn in Consts.DEFAULTS:
-            self.setBtnPressed(btn, False)
+        #for btn in Consts.DEFAULTS:
+        #    self.setBtnPressed(btn, False)
 
         for btn in Consts.DEFAULTS:
             self.setBtnPressed(btn, Consts.DEFAULTS[btn]["pressed"])
@@ -44,7 +44,7 @@ class MaschineMikroMK3:
 
 
     def onGlobalChange(self):
-        pass
+        self.router.updateModes()
 
 
 

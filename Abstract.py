@@ -26,14 +26,12 @@ class Context:
 
 
 
-    def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        # print("JOG jog=" + str(jog) + ", mode=" + str(mode) + ", press=" + str(press) + ", step=" + str(step))
+    def jog(self, jog: int, modes: int, press: bool, step: int) -> bool:
         return False
 
 
 
     def button(self, btn: int, shift: bool, press: bool) -> bool:
-        # print("button " + self.router.mmmk3.test.btnName(btn) + ", shift=" + str(shift) + ", press=" + str(press))
         return False
 
 

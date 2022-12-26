@@ -20,12 +20,12 @@ import midi
 class Context(Abstract.Context):
 
     def enabled(self) -> bool:
-        return ui.getFocusedFormID() == midi.widPlaylist
+        return self.router.mode == Consts.MODE_PLAYLIST
 
 
 
-    def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if mode == Consts.JOG_DEFAULT:
+    def jog(self, jog: int, modes: int, press: bool, step: int) -> bool:
+        if modes & Consts.JOG_DEFAULT:
             transport.globalTransport(midi.FPT_PatternJog, step)
 
         else:

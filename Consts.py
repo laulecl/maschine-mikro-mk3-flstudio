@@ -67,164 +67,169 @@ PAD_SEMITONE_PLUS = 14
 PAD_OCTAVE_MINUS = 15
 PAD_OCTAVE_PLUS = 16
 
-JOG_VOLUME = BTN_VOLUME
-JOG_VELOCITY = -JOG_VOLUME
-JOG_SWING = BTN_SWING
-JOG_POSITION = -JOG_SWING
-JOG_TEMPO = BTN_TEMPO
-JOG_TUNE = -JOG_TEMPO
-JOG_PLUGIN = BTN_PLUGIN
-JOG_MACRO = -JOG_PLUGIN
-JOG_SAMPLING = BTN_SAMPLING
-JOG_DEFAULT = 9999
-JOG_SHIFT = -JOG_DEFAULT
+JOG_DEFAULT = 0b00000000001
+JOG_SHIFT = 0b00000000010
+JOG_VOLUME = 0b00000000100
+JOG_VELOCITY = 0b00000001000
+JOG_SWING = 0b00000010000
+JOG_POSITION = 0b00000100000
+JOG_TEMPO = 0b00001000000
+JOG_TUNE = 0b00010000000
+JOG_PLUGIN = 0b00100000000
+JOG_MACRO = 0b01000000000
+JOG_SAMPLING = 0b10000000000
 
 GRID_NOTE = 60
 GRID_VELOCITY = 100
 
+MODE_CHANNEL = BTN_SCENE
+MODE_PLAYLIST = BTN_PATTERN
+MODE_PIANO_ROLL = BTN_EVENTS
+MODE_MIXER = BTN_VARIATION
+
 DEFAULTS = {
-    BTN_PROJECT: {
-        "name": "PROJECT",
+    BTN_PROJECT:     {
+        "name":    "PROJECT",
         "pressed": False
     },
-    BTN_FAVORITE: {
-        "name": "FAVORITE",
+    BTN_FAVORITE:    {
+        "name":    "FAVORITE",
         "pressed": False
     },
-    BTN_BROWSER: {
-        "name": "BROWSER",
+    BTN_BROWSER:     {
+        "name":    "BROWSER",
         "pressed": False
     },
-    BTN_JOG: {
-        "name": "JOG",
+    BTN_JOG:         {
+        "name":    "JOG",
         "pressed": False
     },
-    BTN_VOLUME: {
-        "name": "VOLUME",
+    BTN_VOLUME:      {
+        "name":    "VOLUME",
         "pressed": False
     },
-    BTN_PLUGIN: {
-        "name": "PLUGIN",
+    BTN_PLUGIN:      {
+        "name":    "PLUGIN",
         "pressed": False
     },
-    BTN_SWING: {
-        "name": "SWING",
+    BTN_SWING:       {
+        "name":    "SWING",
         "pressed": False
     },
-    BTN_SAMPLING: {
-        "name": "SAMPLING",
+    BTN_SAMPLING:    {
+        "name":    "SAMPLING",
         "pressed": False
     },
-    BTN_TEMPO: {
-        "name": "TEMPO",
+    BTN_TEMPO:       {
+        "name":    "TEMPO",
         "pressed": False
     },
-    BTN_PITCH: {
-        "name": "PITCH",
+    BTN_PITCH:       {
+        "name":    "PITCH",
         "pressed": False
     },
-    BTN_MOD: {
-        "name": "MOD",
+    BTN_MOD:         {
+        "name":    "MOD",
         "pressed": False
     },
-    BTN_PERFORM: {
-        "name": "PERFORM",
+    BTN_PERFORM:     {
+        "name":    "PERFORM",
         "pressed": False
     },
-    BTN_NOTES: {
-        "name": "NOTES",
+    BTN_NOTES:       {
+        "name":    "NOTES",
         "pressed": False
     },
-    BTN_AUTO: {
-        "name": "AUTO",
+    BTN_AUTO:        {
+        "name":    "AUTO",
         "pressed": False
     },
-    BTN_LOCK: {
-        "name": "LOCK",
+    BTN_LOCK:        {
+        "name":    "LOCK",
         "pressed": False
     },
     BTN_NOTE_REPEAT: {
-        "name": "NOTE_REPEAT",
+        "name":    "NOTE_REPEAT",
         "pressed": False
     },
-    BTN_RESTART: {
-        "name": "RESTART",
+    BTN_RESTART:     {
+        "name":    "RESTART",
         "pressed": False
     },
-    BTN_ERASE: {
-        "name": "ERASE",
+    BTN_ERASE:       {
+        "name":    "ERASE",
         "pressed": False
     },
-    BTN_TAP: {
-        "name": "TAP",
+    BTN_TAP:         {
+        "name":    "TAP",
         "pressed": False
     },
-    BTN_FOLLOW: {
-        "name": "FOLLOW",
+    BTN_FOLLOW:      {
+        "name":    "FOLLOW",
         "pressed": False
     },
-    BTN_PLAY: {
-        "name": "PLAY",
+    BTN_PLAY:        {
+        "name":    "PLAY",
         "pressed": False
     },
-    BTN_REC: {
-        "name": "REC",
+    BTN_REC:         {
+        "name":    "REC",
         "pressed": False
     },
-    BTN_STOP: {
-        "name": "STOP",
+    BTN_STOP:        {
+        "name":    "STOP",
         "pressed": False
     },
-    BTN_FIXED_VEL: {
-        "name": "FIXED_VEL",
+    BTN_FIXED_VEL:   {
+        "name":    "FIXED_VEL",
         "pressed": False
     },
-    BTN_PAD_MODE: {
-        "name": "PAD_MODE",
+    BTN_PAD_MODE:    {
+        "name":    "PAD_MODE",
         "pressed": False
     },
-    BTN_KEYBOARD: {
-        "name": "KEYBOARD",
-        "pressed": True
-    },
-    BTN_CHORDS: {
-        "name": "CHORDS",
+    BTN_KEYBOARD:    {
+        "name":    "KEYBOARD",
         "pressed": False
     },
-    BTN_STEP: {
-        "name": "STEP",
+    BTN_CHORDS:      {
+        "name":    "CHORDS",
         "pressed": False
     },
-    BTN_SCENE: {
-        "name": "SCENE",
+    BTN_STEP:        {
+        "name":    "STEP",
         "pressed": False
     },
-    BTN_PATTERN: {
-        "name": "PATTERN",
+    BTN_SCENE:       {
+        "name":    "SCENE",
         "pressed": False
     },
-    BTN_EVENTS: {
-        "name": "EVENTS",
+    BTN_PATTERN:     {
+        "name":    "PATTERN",
         "pressed": False
     },
-    BTN_VARIATION: {
-        "name": "VARIATION",
+    BTN_EVENTS:      {
+        "name":    "EVENTS",
         "pressed": False
     },
-    BTN_DUPLICATE: {
-        "name": "DUPLICATE",
+    BTN_VARIATION:   {
+        "name":    "VARIATION",
         "pressed": False
     },
-    BTN_SELECT: {
-        "name": "SELECT",
+    BTN_DUPLICATE:   {
+        "name":    "DUPLICATE",
         "pressed": False
     },
-    BTN_SOLO: {
-        "name": "SOLO",
+    BTN_SELECT:      {
+        "name":    "SELECT",
         "pressed": False
     },
-    BTN_MUTE: {
-        "name": "MUTE",
+    BTN_SOLO:        {
+        "name":    "SOLO",
+        "pressed": False
+    },
+    BTN_MUTE:        {
+        "name":    "MUTE",
         "pressed": False
     },
 }

@@ -23,7 +23,7 @@ class Context(Abstract.Context):
 
 
 
-    def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
+    def jog(self, jog: int, modes: int, press: bool, step: int) -> bool:
         if False:
             pass
 

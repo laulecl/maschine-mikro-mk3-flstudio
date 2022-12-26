@@ -22,11 +22,11 @@ class Context(Abstract.Context):
 
 
 
-    def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if mode == Consts.JOG_POSITION:
+    def jog(self, jog: int, modes: int, press: bool, step: int) -> bool:
+        if modes & Consts.JOG_POSITION:
             self.trackPos(step, press)
 
-        elif mode == Consts.JOG_TEMPO:
+        elif modes & Consts.JOG_TEMPO:
             self.tempo(step, press)
 
         else:
@@ -63,13 +63,12 @@ class Context(Abstract.Context):
 
 
     def trackPos(self, step: int, slow: bool):
-        # todo bug de positionnement
-        step = step * 10
-        if not slow:
-            step = step * 100
-
-        # print(str(transport.getSongPos(midi.SONGLENGTH_MS)))
-        transport.setSongPos(transport.getSongPos(midi.SONGLENGTH_MS) + step, midi.SONGLENGTH_MS)
+        pos = transport.getSongPos(midi.SONGLENGTH_ABSTICKS)
+        if slow:
+            pos += step * 384 / 4
+        else:
+            pos += step * 384
+        transport.setSongPos(pos, midi.SONGLENGTH_ABSTICKS)
 
 
 

@@ -7,11 +7,3 @@
     Copyright (c) 2022 Laurent LECLUSE
 ]]
 """
-
-
-
-def inArray(haystack, needle):
-    for n in haystack:
-        if n == needle:
-            return True
-    return False

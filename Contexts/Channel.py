@@ -24,7 +24,7 @@ class Context(Abstract.Context):
     #    AbstractContext.__init__(self, router)
 
     def enabled(self) -> bool:
-        return ui.getFocusedFormID() == midi.widChannelRack
+        return self.router.mode == Consts.MODE_CHANNEL
 
 
 
@@ -42,13 +42,22 @@ class Context(Abstract.Context):
 
 
 
-    def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if mode == Consts.JOG_VOLUME:
-            self.volume(step, press)
+    def jog(self, jog: int, modes: int, press: bool, step: int) -> bool:
 
-        elif mode == Consts.JOG_SWING:
-            value = general.processRECEvent(midi.REC_Chan_SwingMix, 0, midi.REC_GetValue)
-            general.processRECEvent(midi.REC_Chan_SwingMix, value + step, midi.REC_Control)
+        if modes & Consts.JOG_DEFAULT:
+            transport.globalTransport(midi.FPT_ChannelJog, step)
+
+        elif modes & Consts.JOG_SHIFT:
+            transport.globalTransport(midi.FPT_PatternJog, step)
+
+        elif modes & Consts.JOG_VOLUME:
+            self.changeParameter(midi.REC_Chan_Vol, step, press)
+
+        elif modes & Consts.JOG_SWING:
+            self.changeParameter(midi.REC_Chan_SwingMix, step, press)
+
+        elif modes & Consts.JOG_POSITION:
+            self.changeParameter(midi.REC_Chan_Pan, step, press)
 
         else:
             return False
@@ -70,11 +79,7 @@ class Context(Abstract.Context):
 
 
 
-    def volume(self, step: int, slow: bool):
-        if slow:
-            step = 0.01 * step
-        else:
-            step = 0.02 * step
-
-        volume = channels.getChannelVolume(channels.selectedChannel())
-        channels.setChannelVolume(channels.selectedChannel(), volume + step)
+    def changeParameter(self, recEvent: int, step: int, slow: bool):
+        eventId = recEvent + channels.getRecEventId(channels.selectedChannel())
+        newValue = channels.incEventValue(eventId, step)
+        general.processRECEvent(eventId, newValue, midi.REC_UpdateValue | midi.REC_UpdateControl)

@@ -17,6 +17,7 @@ import channels
 import midi
 import plugins
 import playlist
+import general
 
 import Consts
 
@@ -28,11 +29,20 @@ def test():
 
     #print(plugins.getParamName(pindex, channels.selectedChannel()))
     #plugins.setParamValue(pvalue, pindex, channels.selectedChannel())
-    printPlugin()
+
+    #transport.globalTransport(midi.FPT_StepEdit, 1)
+
+    pass
 
 
 def testJog(step: int):
-    plugins.nextPreset(channels.selectedChannel())
+    #length = transport.getSongLength(midi.SONGLENGTH_S)
+
+    pos = transport.getSongPos(midi.SONGLENGTH_ABSTICKS)
+    pos += step * 384
+    transport.setSongPos(pos, midi.SONGLENGTH_ABSTICKS)
+
+
 
 
 

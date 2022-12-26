@@ -22,13 +22,14 @@ class Context(Abstract.Context):
 
 
 
-    def jog(self, jog: int, mode: int, press: bool, step: int) -> bool:
-        if mode == Consts.JOG_DEFAULT:
-            transport.globalTransport(midi.FPT_Jog, step)
+    def jog(self, jog: int, modes: int, press: bool, step: int) -> bool:
+        #if mode == Consts.JOG_DEFAULT:
+        #    transport.globalTransport(midi.FPT_Jog, step)
 
-        elif mode == Consts.JOG_SHIFT:
-            transport.globalTransport(midi.FPT_Jog2, step)
-
+        #elif mode == Consts.JOG_SHIFT:
+        #    transport.globalTransport(midi.FPT_Jog2, step)
+        if False:
+            pass
         else:
             return False
 
