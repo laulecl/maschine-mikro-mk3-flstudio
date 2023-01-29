@@ -14,7 +14,12 @@ import Contexts.Channel
 import Contexts.Pattern
 import Contexts.Grid
 import Contexts.Mixer
+import Contexts.Plugin
 import Plugins.FlKeys
+import Plugins.Kontakt
+import Plugins.Nexus
+import Plugins.Massive
+import Plugins.Battery
 
 
 
@@ -26,7 +31,12 @@ class Loader:
             Contexts.Transport.Context(router),
 
             Plugins.FlKeys.Plugin(router),
+            Plugins.Kontakt.Plugin(router),
+            Plugins.Nexus.Plugin(router),
+            Plugins.Massive.Plugin(router),
+            Plugins.Battery.Plugin(router),
 
+            Contexts.Plugin.Context(router),
             Contexts.Channel.Context(router),
             Contexts.Pattern.Context(router),
             Contexts.Grid.Context(router),

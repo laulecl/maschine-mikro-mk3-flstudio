@@ -24,13 +24,10 @@ import Consts
 
 
 def test():
-    #pindex = 1
-    #pvalue = 1
+    #channels.midiNoteOn(channels.selectedChannel(), 1, 127)
+    channels.showEditor(channels.selectedChannel(),1)
 
-    #print(plugins.getParamName(pindex, channels.selectedChannel()))
-    #plugins.setParamValue(pvalue, pindex, channels.selectedChannel())
-
-    #transport.globalTransport(midi.FPT_StepEdit, 1)
+    #print(ui.getFocusedPluginName())
 
     pass
 

@@ -20,7 +20,7 @@ import midi
 class Context(Abstract.Context):
 
     def enabled(self) -> bool:
-        return self.router.mode == Consts.MODE_PLAYLIST
+        return self.router.daw.mode == Consts.MODE_PLAYLIST
 
 
 

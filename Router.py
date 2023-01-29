@@ -12,22 +12,22 @@ import Consts
 import Test
 import Util
 import Loader
+import Daw
 import ui
 import midi
+import channels
 
 
 
 class Router:
 
     def __init__(self, maschineMikroMK3):
-        self.mmmk3 = maschineMikroMK3
+        self.device = maschineMikroMK3
+        self.daw = Daw.Daw(self)
         self.loader = Loader.Loader(self)
 
         self.jogModes = Consts.JOG_DEFAULT
 
-        # init mode params
-        self.modeButtons = [Consts.MODE_CHANNEL, Consts.MODE_PLAYLIST, Consts.MODE_PIANO_ROLL, Consts.MODE_MIXER]
-        self.mode = None
 
 
 
@@ -46,7 +46,7 @@ class Router:
                     break
 
         if not processed:
-            print('JOG jog=', jog, ", step=", step, ", press=", press, ", modes=", self.jogModesStr())
+            print('JOG jog=', jog, ", step=", step, ", press=", press, ", modes=", self._jogModesStr())
 
 
 
@@ -64,9 +64,8 @@ class Router:
             processed = True
 
         # BTNs for window switch mode usage
-        elif btn in self.modeButtons:
-            ui.showWindow(self._modeWindowId(btn))
-            self.changeMode(btn)
+        elif btn in self.daw.modeButtons:
+            self.daw.showModeWindow(btn)
             processed = True
 
         # Other BTNs
@@ -110,13 +109,6 @@ class Router:
 
 
 
-    # usefull shortcut access to low level
-
-    def setBtnPressed(self, btn: int, pressed: bool):
-        self.mmmk3.setBtnPressed(btn, pressed)
-
-
-
     def _jogBtnPress(self, btn: int, shift: bool, state: bool):
 
         if btn == Consts.BTN_RESTART:
@@ -152,7 +144,7 @@ class Router:
 
 
 
-    def jogModesStr(self) -> str:
+    def _jogModesStr(self) -> str:
         res = ""
         if self.jogModes & Consts.JOG_DEFAULT: res += "DEFAULT,"
         if self.jogModes & Consts.JOG_SHIFT: res += "SHIFT,"
@@ -168,67 +160,27 @@ class Router:
         return res[:-1]
 
 
+    # usefull shortcut access to device or daw
+    def setBtnPressed(self, btn: int, pressed: bool):
+        self.device.setBtnPressed(btn, pressed)
 
     def isBtnPressed(self, btn: int) -> bool:
-        return self.mmmk3.isBtnPressed(btn)
-
-
+        return self.device.isBtnPressed(btn)
 
     def isPadPressed(self, pad: int) -> bool:
-        return self.mmmk3.isPadPressed(pad)
-
-
+        return self.device.isPadPressed(pad)
 
     def isBtnShifted(self, btn: int) -> bool:
-        return self.mmmk3.isBtnShifted(btn)
-
-
+        return self.device.isBtnShifted(btn)
 
     def isPadShifted(self, pad: int) -> bool:
-        return self.mmmk3.isPadShifted(pad)
+        return self.device.isPadShifted(pad)
 
+    def note(self, note: int, octave: int, pressure: int):
+        self.daw.note(note,octave, pressure)
 
+    def noteOn(self, note: int, octave: int, pressure: int):
+        self.daw.noteOn(note, octave, pressure)
 
-    def changeMode(self, mode: int = None):
-        self.mode = mode
-        if mode != None:
-            self.setBtnPressed(mode, True)
-        for b in self.modeButtons:
-            if b != mode:
-                self.setBtnPressed(b, False)
-
-
-
-    def _modeWindowId(self, mode: int):
-        modeWins = {
-            Consts.MODE_CHANNEL:    midi.widChannelRack,
-            Consts.MODE_PLAYLIST:   midi.widPlaylist,
-            Consts.MODE_PIANO_ROLL: midi.widPianoRoll,
-            Consts.MODE_MIXER:      midi.widMixer
-        }
-        return modeWins[mode]
-
-
-
-    def updateModes(self):
-        wid = ui.getFocusedFormID()
-        win = ui.getFocusedFormCaption()
-
-        if wid == midi.widChannelRack and win == 'Channel rack':
-            if self.mode != Consts.MODE_CHANNEL:
-                self.changeMode(Consts.MODE_CHANNEL)
-
-        elif wid == midi.widPlaylist and win.startswith('Playlist -'):
-            if self.mode != Consts.MODE_PLAYLIST:
-                self.changeMode(Consts.MODE_PLAYLIST)
-
-        elif wid == midi.widPianoRoll and win.startswith('Piano roll -'):
-            if self.mode != Consts.MODE_PIANO_ROLL:
-                self.changeMode(Consts.MODE_PIANO_ROLL)
-
-        elif wid == midi.widMixer and win.startswith('Mixer -'):
-            if self.mode != Consts.MODE_MIXER:
-                self.changeMode(Consts.MODE_MIXER)
-
-        elif self.mode != None:
-            self.changeMode(None)
+    def noteOff(self, note: int, octave: int):
+        self.daw.noteOff(note, octave)

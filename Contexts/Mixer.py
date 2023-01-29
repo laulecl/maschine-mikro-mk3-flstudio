@@ -20,7 +20,7 @@ import mixer
 class Context(Abstract.Context):
 
     def enabled(self) -> bool:
-        return self.router.mode == Consts.MODE_MIXER
+        return self.router.daw.mode == Consts.MODE_MIXER
 
 
 

@@ -24,7 +24,7 @@ class Context(Abstract.Context):
     #    AbstractContext.__init__(self, router)
 
     def enabled(self) -> bool:
-        return self.router.mode == Consts.MODE_CHANNEL
+        return self.router.daw.mode == Consts.MODE_CHANNEL
 
 
 
@@ -34,6 +34,9 @@ class Context(Abstract.Context):
 
         elif btn == Consts.BTN_MUTE:
             channels.muteChannel(channels.selectedChannel())
+
+        elif btn == Consts.BTN_JOG and press:
+            channels.showEditor(channels.selectedChannel())
 
         else:
             return False

@@ -44,7 +44,7 @@ class MaschineMikroMK3:
 
 
     def onGlobalChange(self):
-        self.router.updateModes()
+        self.router.daw.updateModes()
 
 
 
@@ -80,18 +80,16 @@ class MaschineMikroMK3:
     def onPadPressure(self, event):
         event.handled = True
         pad = self._getPad(event)
-        if event.pressure > 0 and not self._pads[pad]:
-            self._pads[pad] = True
-            self._padShifts[pad] = self.shift
-            self.router.pad(self._getGroup(event), pad, self._padShifts[pad], event.pressure)
+        self.router.padChangePressure(self._getGroup(event), pad, event.pressure)
 
-        elif event.pressure == 0 and self._pads[pad]:
-            self._pads[pad] = False
-            self.router.pad(self._getGroup(event), pad, self._padShifts[pad], 0)
-            self._padShifts[pad] = False
 
-        elif event.pressure > 0 and self._pads[pad]:
-            self.router.padChangePressure(self._getGroup(event), pad, event.pressure)
+    def onPadPress(self, event):
+        event.handled = True
+        pad = self._getPad(event)
+
+        self._pads[pad] = True
+        self._padShifts[pad] = self.shift
+        self.router.pad(self._getGroup(event), pad, self._padShifts[pad], event.velocity)
 
 
 

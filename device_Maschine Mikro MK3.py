@@ -19,6 +19,7 @@ from MaschineMikroMK3 import MaschineMikroMK3
 def OnKeyPressure(event):
     global _mmmk3
     _mmmk3.onPadPressure(event)
+    #Test.printEvent(event, "OnKeyPressure")
 
 
 
@@ -36,6 +37,8 @@ def OnUpdateMeters():
 
 def OnNoteOn(event):
     event.handled = True
+    _mmmk3.onPadPress(event)
+    #Test.printEvent(event, "OnNoteOn")
 
 
 
