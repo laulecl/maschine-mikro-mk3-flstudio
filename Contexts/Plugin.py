@@ -15,6 +15,7 @@ import channels
 import ui
 import transport
 import midi
+import math
 
 
 
@@ -44,5 +45,17 @@ class Context(Abstract.Context):
             return False
 
 
+
+        return True
+
+
+    def pad(self, group: int, pad: int, shift: bool, pressure: int):
+        if shift:
+            return False
+
+        note = (pad-1) % 12
+        octave = math.ceil(pad / 12)-1
+
+        self.router.note(note, octave+group-1, pressure)
 
         return True
